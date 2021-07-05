@@ -1,0 +1,62 @@
+{
+    "employee": [
+      {
+        "id": 1,
+        "_name": "Tanya Kansal",
+        "_profile": "..\\assets\\profile\\Ellipse -8.png",
+        "_gender": "female",
+        "_department": [
+          "engineer"
+        ],
+        "_salary": "500000",
+        "_startDate": null,
+        "_notes": "first job"
+      },
+      {
+        "id": 2,
+        "_name": "Prashant Kumar",
+        "_profile": "..\\assets\\profile\\Ellipse -8.png",
+        "_gender": "male",
+        "_department": [
+          "hr"
+        ],
+        "_salary": "729300",
+        "_startDate": "2020-06-02T18:30:00.000Z",
+        "_notes": "got chill"
+      },
+      {
+        "id": 3,
+        "_name": "Punji Kansal",
+        "_profile": "..\\assets\\profile\\Ellipse 1.png",
+        "_gender": "female",
+        "_department": [
+          "engineer"
+        ],
+        "_salary": "1100000",
+        "_startDate": "2020-04-30T18:30:00.000Z",
+        "_notes": "her dream job"
+      },
+      {
+        "id": 4,
+        "name": "Sandip Chauhan",
+        "profilePicture": "../../assets/profile-images/Ellipse -3.png",
+        "gender": "male",
+        "departments": [
+          "HR"
+        ],
+        "salary": "438500",
+        "startDate": "2019-12-31T18:30:00.000Z"
+      },
+      {
+        "id": 5,
+        "name": "Ankur Singh",
+        "profilePicture": "../../assets/profile-images/Ellipse -4.png",
+        "gender": "male",
+        "departments": [
+          "Sales"
+        ],
+        "salary": "623200",
+        "startDate": "2019-12-31T18:30:00.000Z"
+      }
+    ]
+  }
