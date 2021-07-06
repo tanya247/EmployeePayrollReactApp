@@ -5,15 +5,16 @@ import profile3 from '../../assets/profile-images/Ellipse -5.png';
 import profile4 from '../../assets/profile-images/Ellipse -7.png';
 import profile5 from '../../assets/profile-images/Ellipse -2.png';
 import profile6 from '../../assets/profile-images/Ellipse -1.png';
-
+import '../payroll-form/payroll-form.scss';
 import logo from '../../assets/logo.png';
 import { userParams, Link, withRouter } from 'react-router-dom';
-import '../payroll-form/payroll-form.scss';
+import EmployeeService from '../../services/employee-service';
+
 const initialState = {
   name: '',
   profilePicture: '',
   gender: '',
-  departments: [],    
+  departments: [],
   salary: 40000,
   day: '1',
   month: 'Jan',
@@ -21,7 +22,7 @@ const initialState = {
   startDate: new Date("1 Jan 2020"),
   notes: '',
 
-  id: '',      
+  id: '',
   isUpdate: false,
   isError: false,
 
@@ -30,8 +31,8 @@ const initialState = {
     name: '',
     gender: '',
     profilePicture: '',
-    startDate: ''    
-  },  
+    startDate: ''
+  },
   valid: {
     department: '',
     name: '',
@@ -47,7 +48,7 @@ class PayrollForm extends React.Component {
       name: '',
       profilePicture: '',
       gender: '',
-      departments: [],    
+      departments: [],
       salary: 40000,
       day: '1',
       month: 'Jan',
@@ -55,7 +56,7 @@ class PayrollForm extends React.Component {
       startDate: new Date("1 Jan 2020"),
       notes: '',
 
-      id: '',      
+      id: '',
       isUpdate: false,
       isError: false,
 
@@ -64,8 +65,8 @@ class PayrollForm extends React.Component {
         name: '',
         gender: '',
         profilePicture: '',
-        startDate: ''    
-      },  
+        startDate: ''
+      },
       valid: {
         department: '',
         name: '',
@@ -86,56 +87,58 @@ class PayrollForm extends React.Component {
   }
 
   nameChangeHandler = (event) => {
-    this.setState({name: event.target.value});
+    this.setState({ name: event.target.value });
     this.checkName(event.target.value);
   }
   profileChangeHandler = (event) => {
-    this.setState({profilePicture: event.target.value});
+    this.setState({ profilePicture: event.target.value });
     this.checkProfilePicture(event.target.value);
   }
   genderChangeHandler = (event) => {
-    this.setState({gender: event.target.value});
+    this.setState({ gender: event.target.value });
     this.checkGender(event.target.value);
   }
   departmentChangeHandler = async (event) => {
-    {if(event.target.checked) {
-      await this.setState({departments: this.state.departments.concat(event.target.value)});
-    }
-    if (!event.target.checked) {
-      let index = 0;
-      let array = this.state.departments;
-      for (let i = 0; i < array.length; i++) {
-          if (array[i] === event.target.value) {
-              index = i;
-          }
+    {
+      if (event.target.checked) {
+        await this.setState({ departments: this.state.departments.concat(event.target.value) });
       }
-      array.splice(index, 1);
-      await this.setState({ departments: array });
-    }}
+      if (!event.target.checked) {
+        let index = 0;
+        let array = this.state.departments;
+        for (let i = 0; i < array.length; i++) {
+          if (array[i] === event.target.value) {
+            index = i;
+          }
+        }
+        array.splice(index, 1);
+        await this.setState({ departments: array });
+      }
+    }
     this.checkDepartment(this.state.departments);
   }
   salaryChangeHandler = (event) => {
-    this.setState({salary: event.target.value});    
+    this.setState({ salary: event.target.value });
   }
   dayChangeHandler = (event) => {
-    this.setState({day: event.target.value});
+    this.setState({ day: event.target.value });
     this.setStartDate(event.target.value, this.state.month, this.state.year);
   }
   monthChangeHandler = (event) => {
-    this.setState({month: event.target.value});
+    this.setState({ month: event.target.value });
     this.setStartDate(this.state.day, event.target.value, this.state.year);
   }
   yearChangeHandler = (event) => {
-    this.setState({year: event.target.value});
+    this.setState({ year: event.target.value });
     this.setStartDate(this.state.day, this.state.month, event.target.value);
   }
   notesChangeHandler = (event) => {
-    this.setState({notes: event.target.value});
+    this.setState({ notes: event.target.value });
   }
-  
+
   setStartDate = (day, month, year) => {
     let startDateValue = new Date(`${day} ${month} ${year}`);
-    this.setState({startDate: startDateValue});
+    this.setState({ startDate: startDateValue });
     this.checkStartDate(startDateValue);
   }
 
@@ -154,11 +157,11 @@ class PayrollForm extends React.Component {
     }));
   }
   checkName = (nameValue) => {
-    if(nameValue.length === 0) {
+    if (nameValue.length === 0) {
       this.initializeMessage('name', '', '');
     } else {
       const NAME_REGEX = RegExp("^[A-Z]{1}[a-z]{2,}([ ][A-Z]{1}[a-z]{2,})?$");
-      if(NAME_REGEX.test(nameValue)) {
+      if (NAME_REGEX.test(nameValue)) {
         this.initializeMessage('name', '', '✓');
       } else {
         this.initializeMessage('name', 'Name is Invalid!', '');
@@ -166,7 +169,7 @@ class PayrollForm extends React.Component {
     }
   }
   checkProfilePicture = (profilePictureValue) => {
-    if(profilePictureValue.length === 0) {
+    if (profilePictureValue.length === 0) {
       this.initializeMessage('profilePicture', 'Profile Picture cannot be Blank!', '');
     } else {
       this.initializeMessage('profilePicture', '', '✓');
@@ -176,32 +179,32 @@ class PayrollForm extends React.Component {
     let now = new Date();
     let difference = Math.abs(now.getTime() - startDateValue.getTime());
     if (startDateValue > now) {
-        this.initializeMessage('startDate', 'Start Date is a Futute Date!', '');
+      this.initializeMessage('startDate', 'Start Date is a Futute Date!', '');
     } else {
-        this.initializeMessage('startDate', '', '✓');
+      this.initializeMessage('startDate', '', '✓');
     }
-}
+  }
   checkDepartment = (departmentsValue) => {
-    if(departmentsValue.length === 0) {
+    if (departmentsValue.length === 0) {
       this.initializeMessage('department', 'Employee must belong to atleast one Department!', '');
     } else {
       this.initializeMessage('department', '', '✓');
     }
   }
   checkGender = (genderValue) => {
-    if(genderValue.length === 0) {
+    if (genderValue.length === 0) {
       this.initializeMessage('gender', 'Gender is a Required Field!', '');
     } else {
       this.initializeMessage('gender', '', '✓');
     }
   }
-  checkGlobalError = () =>{
-    if(this.state.error.name.length === 0 && this.state.error.department.length === 0 && this.state.error.gender.length === 0 
+  checkGlobalError = () => {
+    if (this.state.error.name.length === 0 && this.state.error.department.length === 0 && this.state.error.gender.length === 0
       && this.state.error.profilePicture.length === 0 && this.state.error.startDate.length === 0) {
-        this.setState({isError: false});
-      } else {
-        this.setState({isError: true});
-      }
+      this.setState({ isError: false });
+    } else {
+      this.setState({ isError: true });
+    }
   }
 
   checkValidations = async () => {
@@ -213,7 +216,7 @@ class PayrollForm extends React.Component {
     await this.checkGlobalError();
     return (this.state.isError);
   }
-  save =  async (event) => {
+  save = async (event) => {
     event.preventDefault();
     event.stopPropagation();
     saveOperation: {         
@@ -222,12 +225,31 @@ class PayrollForm extends React.Component {
         alert("Error Occured while Submitting the Form ==> ERROR LOG : " + errorLog);
         break saveOperation;
       }
-      alert("Form Submitted Successfully!!!\n"+`${this.state.name} ${this.state.gender} ${this.state.profilePicture} ${this.state.departments} ${this.state.salary} ${this.state.startDate} ${this.state.notes}`);
+      let object = {
+        //id: this.state.id,
+        name: this.state.name,
+        profilePicture: this.state.profilePicture,
+        gender: this.state.gender,
+        departments: this.state.departments,
+        salary: this.state.salary,
+        startDate: this.state.startDate,
+        notes: this.state.notes
+      }
+      console.log(object);
+      new EmployeeService().addEmployee(object)
+      .then(data => {
+        //alert("Employee Added Successfully!!!\n" + JSON.stringify(data))
+        console.log(data);
+      }).catch(error => {
+        //alert("Error while adding Employee!!!\nError : " + error);
+        console.log("error");
+      })
       this.reset();
+    
     }
-  }
+}
   reset = () => {
-    this.setState({...initialState});
+    this.setState({ ...initialState });
   }
   render() {
     return (
@@ -254,32 +276,32 @@ class PayrollForm extends React.Component {
               <label className="label text" htmlFor="profilePicture">Profile Image</label>
               <div className="profile-radio-content">
                 <label>
-                  <input type="radio" id="profile1" name="profilePicture" value="../../assets/profile-images/Ellipse -3.png" 
+                  <input type="radio" id="profile1" name="profilePicture" value="../../assets/profile-images/Ellipse -3.png"
                     checked={this.state.profilePicture === '../../assets/profile-images/Ellipse -3.png'} onChange={this.profileChangeHandler} />
                   <img className="profile" id="image1" src={profile1} alt="" />
                 </label>
                 <label>
-                  <input type="radio" id="profile2" name="profilePicture" value="../../assets/profile-images/Ellipse -4.png" 
+                  <input type="radio" id="profile2" name="profilePicture" value="../../assets/profile-images/Ellipse -4.png"
                     checked={this.state.profilePicture === '../../assets/profile-images/Ellipse -4.png'} onChange={this.profileChangeHandler} />
                   <img className="profile" id="image2" src={profile2} alt="" />
                 </label>
                 <label>
-                  <input type="radio" id="profile3" name="profilePicture" value="../../assets/profile-images/Ellipse -5.png" 
+                  <input type="radio" id="profile3" name="profilePicture" value="../../assets/profile-images/Ellipse -5.png"
                     checked={this.state.profilePicture === '../../assets/profile-images/Ellipse -5.png'} onChange={this.profileChangeHandler} />
                   <img className="profile" id="image3" src={profile3} alt="" />
                 </label>
                 <label>
-                  <input type="radio" id="profile4" name="profilePicture" value="../../assets/profile-images/Ellipse -7.png" 
-                   checked={this.state.profilePicture === '../../assets/profile-images/Ellipse -7.png'} onChange={this.profileChangeHandler} />
+                  <input type="radio" id="profile4" name="profilePicture" value="../../assets/profile-images/Ellipse -7.png"
+                    checked={this.state.profilePicture === '../../assets/profile-images/Ellipse -7.png'} onChange={this.profileChangeHandler} />
                   <img className="profile" id="image4" src={profile4} alt="" />
                 </label>
                 <label>
-                  <input type="radio" id="profile5" name="profilePicture" value="../../assets/profile-images/Ellipse -2.png" 
+                  <input type="radio" id="profile5" name="profilePicture" value="../../assets/profile-images/Ellipse -2.png"
                     checked={this.state.profilePicture === '../../assets/profile-images/Ellipse -2.png'} onChange={this.profileChangeHandler} />
                   <img className="profile" id="image5" src={profile5} alt="" />
                 </label>
                 <label>
-                  <input type="radio" id="profile6" name="profile" value="../../assets/profile-images/Ellipse -1.png" 
+                  <input type="radio" id="profile6" name="profile" value="../../assets/profile-images/Ellipse -1.png"
                     checked={this.state.profilePicture === '../../assets/profile-images/Ellipse -1.png'} onChange={this.profileChangeHandler} />
                   <img className="profile" id="image6" src={profile6} alt="" />
                 </label>
@@ -291,11 +313,11 @@ class PayrollForm extends React.Component {
               <label className="label text" htmlFor="gender">Gender</label>
               <div>
                 <label>
-                  <input type="radio" id="male" checked={this.state.gender === 'male'} onChange={this.genderChangeHandler} name="gender" value="male"  />
+                  <input type="radio" id="male" checked={this.state.gender === 'male'} onChange={this.genderChangeHandler} name="gender" value="male" />
                   <label className="text" htmlFor="male">Male</label>
                 </label>
                 <label>
-                  <input type="radio" id="female" checked={this.state.gender === 'female'} onChange={this.genderChangeHandler} name="gender" value="female"  />
+                  <input type="radio" id="female" checked={this.state.gender === 'female'} onChange={this.genderChangeHandler} name="gender" value="female" />
                   <label className="text" htmlFor="female">Female</label>
                 </label>
               </div>
@@ -304,26 +326,26 @@ class PayrollForm extends React.Component {
             </div>
             <div className="row-content">
               <label className="label text" htmlFor="department">Department</label>
-              <div>            
+              <div>
                 <label>
-                    <input class="checkbox" type="checkbox" id="hr" name="department" value="HR" onChange={this.departmentChangeHandler} />
-                    <label class="text" for="hr">HR</label>
+                  <input className="checkbox" type="checkbox" id="hr" name="department" value="HR" onChange={this.departmentChangeHandler} />
+                  <label className="text" htmlFor="hr">HR</label>
                 </label>
                 <label>
-                    <input class="checkbox" type="checkbox" id="sales" name="department" value="Sales" onChange={this.departmentChangeHandler} />
-                    <label class="text" for="sales">Sales</label>
+                  <input className="checkbox" type="checkbox" id="sales" name="department" value="Sales" onChange={this.departmentChangeHandler} />
+                  <label className="text" htmlFor="sales">Sales</label>
                 </label>
                 <label>
-                    <input class="checkbox" type="checkbox" id="finance" name="department" value="Finance" onChange={this.departmentChangeHandler} />
-                    <label class="text" for="finance">Finance</label>
+                  <input className="checkbox" type="checkbox" id="finance" name="department" value="Finance" onChange={this.departmentChangeHandler} />
+                  <label className="text" htmlFor="finance">Finance</label>
                 </label>
                 <label>
-                    <input class="checkbox" type="checkbox" id="engineer" name="department" value="Engineer" onChange={this.departmentChangeHandler} />
-                    <label class="text" for="engineer">Engineer</label>
+                  <input className="checkbox" type="checkbox" id="engineer" name="department" value="Engineer" onChange={this.departmentChangeHandler} />
+                  <label className="text" htmlFor="engineer">Engineer</label>
                 </label>
                 <label>
-                    <input class="checkbox" type="checkbox" id="others" name="department" value="Others" onChange={this.departmentChangeHandler} />
-                    <label class="text" for="others">Others</label>
+                  <input className="checkbox" type="checkbox" id="others" name="department" value="Others" onChange={this.departmentChangeHandler} />
+                  <label className="text" htmlFor="others">Others</label>
                 </label>
               </div>
               <valid-message className="valid-department" htmlFor="department">{this.state.valid.department}</valid-message>
@@ -386,7 +408,7 @@ class PayrollForm extends React.Component {
                   <option value="Dec">December</option>
                 </select>
                 <select onChange={this.yearChangeHandler} value={this.state.year} id="year" name="year">
-                  <option value = "2021">2021</option>
+                  <option value='2021'>2021</option>
                   <option value="2020">2020</option>
                   <option value="2019">2019</option>
                   <option value="2018">2018</option>
@@ -399,12 +421,12 @@ class PayrollForm extends React.Component {
             </div>
             <div className="row-content">
               <label className="label text" htmlFor="notes">Notes</label>
-              <textarea className="input" onChange={this.notesChangeHandler} value={this.state.notes} id="notes" name="notes" placeholder="Write a note..." style={{height:'100px'}}></textarea>
+              <textarea className="input" onChange={this.notesChangeHandler} value={this.state.notes} id="notes" name="notes" placeholder="Write a note..." style={{ height: '100px' }}></textarea>
             </div>
             <div className="buttonParent">
               <Link to='' className="resetButton button cancelButton">Cancel</Link>
               <div className="submit-reset">
-                <button className="button submitButton" type="submit" id="submitButton">{this.state.isUpdate? 'Update' : 'Submit'}</button>
+                <button className="button submitButton" type="submit" id="submitButton">{this.state.isUpdate ? 'Update' : 'Submit'}</button>
                 <button className="resetButton button" type="reset">Reset</button>
               </div>
             </div>
