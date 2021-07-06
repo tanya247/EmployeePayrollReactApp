@@ -1,9 +1,9 @@
 import config from '../config/config';
-const axios = require('axios').default;
+import AxiosService from '../services/axios-service'
 
 export default class EmployeeService{
     baseUrl = config.baseUrl;
     addEmployee(data){
-        return axios.post('http://localhost:3000/employee',data);
+        return AxiosService.postService('http://localhost:3000/employee',data);
     }
 }

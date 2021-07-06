@@ -11,6 +11,18 @@
       "startDate": "2020-07-31T18:30:00.000Z",
       "notes": "svgwdebfrntyl,j;.km',",
       "id": 1
+    },
+    {
+      "name": "Tanya",
+      "profilePicture": "../../assets/profile-images/Ellipse -4.png",
+      "gender": "female",
+      "departments": [
+        "Sales"
+      ],
+      "salary": "35800",
+      "startDate": "2020-10-31T18:30:00.000Z",
+      "notes": "sxdcfgvhbjnkml,;.'",
+      "id": 2
     }
   ]
 }
