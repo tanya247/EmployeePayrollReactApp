@@ -238,10 +238,10 @@ class PayrollForm extends React.Component {
       console.log(object);
       new EmployeeService().addEmployee(object)
       .then(data => {
-        //alert("Employee Added Successfully!!!\n" + JSON.stringify(data))
+        alert("Employee Added Successfully!!!\n" + JSON.stringify(data))
         console.log(data);
       }).catch(error => {
-        //alert("Error while adding Employee!!!\nError : " + error);
+        alert("Error while adding Employee!!!\nError : " + error);
         console.log("error");
       })
       this.reset();
