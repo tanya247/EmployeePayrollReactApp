@@ -23,6 +23,55 @@
       "startDate": "2020-10-31T18:30:00.000Z",
       "notes": "sxdcfgvhbjnkml,;.'",
       "id": 2
+    },
+    {
+      "name": "Tanya Kansal",
+      "profilePicture": "../../assets/profile-images/Ellipse -4.png",
+      "gender": "female",
+      "departments": [
+        "Finance"
+      ],
+      "salary": "36000",
+      "startDate": "2020-06-30T18:30:00.000Z",
+      "notes": "hbchjdbvjnfskj",
+      "id": 3
+    },
+    {
+      "name": "Tanya Kansal",
+      "profilePicture": "../../assets/profile-images/Ellipse -5.png",
+      "gender": "female",
+      "departments": [
+        "Finance"
+      ],
+      "salary": "34300",
+      "startDate": "2020-07-31T18:30:00.000Z",
+      "notes": "bvfnrs",
+      "id": 4
+    },
+    {
+      "name": "Tanya Kansal",
+      "profilePicture": "../../assets/profile-images/Ellipse -5.png",
+      "gender": "female",
+      "departments": [
+        "Sales",
+        "Finance"
+      ],
+      "salary": "37800",
+      "startDate": "2020-02-29T18:30:00.000Z",
+      "notes": "nbjmn",
+      "id": 5
+    },
+    {
+      "name": "Prashant",
+      "profilePicture": "../../assets/profile-images/Ellipse -3.png",
+      "gender": "male",
+      "departments": [
+        "Sales"
+      ],
+      "salary": "34100",
+      "startDate": "2020-01-31T18:30:00.000Z",
+      "notes": "EBFJKRNJKGNRKJJ",
+      "id": 6
     }
   ]
 }

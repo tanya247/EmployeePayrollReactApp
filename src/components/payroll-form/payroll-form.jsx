@@ -240,6 +240,7 @@ class PayrollForm extends React.Component {
       .then(data => {
         alert("Employee Added Successfully!!!\n" + JSON.stringify(data))
         console.log("Employee Added Succesfully");
+        this.props.history.push("/home");
       }).catch(error => {
         alert("Error while adding Employee!!!\nError : " + error);
         console.log("Employee are not added succesfully");
@@ -254,15 +255,6 @@ class PayrollForm extends React.Component {
   render() {
     return (
       <div className="body">
-        <header className="headerContainer header">
-          <div className="logoContainer">
-            <img src={logo} alt="" />
-            <div>
-              <span className="emp-text">EMPLOYEE</span><br />
-              <span className="emp-text emp-payroll">PAYROLL</span>
-            </div>
-          </div>
-        </header>
         <div className="form-content">
           <form className="form" action="#" onSubmit={this.save} onReset={this.reset}>
             <div className="form-head">Employee Payroll form</div>
